@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using server_side.Database;
+using server_side.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(Options =>
+builder.Services.AddDbContext<SqliteContext>(Options =>
 {
     Options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

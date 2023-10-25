@@ -1,3 +1,6 @@
+# server-side
 /server-side/bin/*
 /server-side/obj/*
-/server-side/Migrations/*
+/server-side/Database/sqlite.*
+
+# client-side
