@@ -6,6 +6,8 @@ public interface ISectionRepository
 {
     ICollection<Section> GetSections();
 
+    Section? GetSectionById(long id);
+
     Section? GetSectionByPartNumber(string uid);
 
     ICollection<Section> GetSectionsByDiameter(double? bottomDiameter, double? topDiameter);

@@ -19,6 +19,11 @@ public class SectionRepository : ISectionRepository
         return sqliteContext.Sections.OrderBy(se => se.Id).ToList();
     }
 
+    public Section? GetSectionById(long id)
+    {
+        return sqliteContext.Sections.Where(se => se.Id == id).FirstOrDefault();
+    }
+
     public Section? GetSectionByPartNumber(string uid)
     {
         return sqliteContext.Sections.Where(se => se.PartNumber == uid).FirstOrDefault();
@@ -28,15 +33,15 @@ public class SectionRepository : ISectionRepository
     {
         if (bottomDiameter != null && topDiameter != null)
         {
-            return sqliteContext.Sections.Where(se => se.BottomDiameter == bottomDiameter).Where(se => se.TopDiameter == topDiameter).ToList();
+            return sqliteContext.Sections.Where(se => se.BottomDiameter == bottomDiameter).Where(se => se.TopDiameter == topDiameter).OrderBy(se => se.Id).ToList();
         }
         else if (bottomDiameter != null)
         {
-            return sqliteContext.Sections.Where(se => se.BottomDiameter == bottomDiameter).ToList();
+            return sqliteContext.Sections.Where(se => se.BottomDiameter == bottomDiameter).OrderBy(se => se.BottomDiameter).ToList();
         }
         else if (topDiameter != null)
         {
-            return sqliteContext.Sections.Where(se => se.TopDiameter == topDiameter).ToList();
+            return sqliteContext.Sections.Where(se => se.TopDiameter == topDiameter).OrderBy(se => se.TopDiameter).ToList();
         }
 
         return new List<Section>();
