@@ -30,5 +30,25 @@ namespace server_side.Controllers
 
             return Ok(sections);
         }
+
+        [HttpGet("{partNumber}")]
+        [ProducesResponseType(200, Type = typeof(Section))]
+        [ProducesResponseType(400)]
+        public IActionResult GetSection(string partNumber)
+        {
+            var section = sectionRepository.GetSectionByPartNumber(partNumber);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (section == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(section);
+        }
     }
 }
