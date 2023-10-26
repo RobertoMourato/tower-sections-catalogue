@@ -8,12 +8,12 @@ ASP.NET Core Web API .NET 7 documentation: http://localhost:5208/swagger/index.h
 dotnet build && dotnet watch
 ```
 
-Create Migrations (created using code first approach)
+Create Migrations (code first approach)
 ```
 dotnet ef migrations add InitialCreate
 ```
 
-Run Migrations
+Run Migrations (create database and tables)
 ```
 dotnet ef database update
 ```
@@ -51,7 +51,7 @@ CREATE TABLE "SectionShells" (
 CREATE INDEX "IX_SectionShells_ShellId" ON "SectionShells" ("ShellId");
 ```
 
-Create Models (database first approach just used for testing purposes)
+Create Models (database first approach just for testing purposes)
 ```
 dotnet ef dbcontext scaffold "Data Source=./Database/sqlite.db" Microsoft.EntityFrameworkCore.Sqlite -o Models --force
 ```
