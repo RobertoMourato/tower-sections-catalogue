@@ -46,15 +46,13 @@ namespace server_side.Migrations
                 name: "SectionShells",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
                     SectionId = table.Column<long>(type: "INTEGER", nullable: false),
                     ShellId = table.Column<long>(type: "INTEGER", nullable: false),
                     ShellPosition = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SectionShells", x => x.Id);
+                    table.PrimaryKey("PK_SectionShells", x => new { x.SectionId, x.ShellId });
                     table.ForeignKey(
                         name: "FK_SectionShells_Sections_SectionId",
                         column: x => x.SectionId,
@@ -68,11 +66,6 @@ namespace server_side.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SectionShells_SectionId",
-                table: "SectionShells",
-                column: "SectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SectionShells_ShellId",

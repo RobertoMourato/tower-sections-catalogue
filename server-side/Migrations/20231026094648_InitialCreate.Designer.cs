@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using server_side.Models;
+using server_side.Data;
 
 #nullable disable
 
 namespace server_side.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    [Migration("20231026083537_InitialCreate")]
+    [Migration("20231026094648_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,10 +42,6 @@ namespace server_side.Migrations
 
             modelBuilder.Entity("server_side.Models.SectionShell", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<long>("SectionId")
                         .HasColumnType("INTEGER");
 
@@ -55,9 +51,7 @@ namespace server_side.Migrations
                     b.Property<long>("ShellPosition")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("SectionId");
+                    b.HasKey("SectionId", "ShellId");
 
                     b.HasIndex("ShellId");
 

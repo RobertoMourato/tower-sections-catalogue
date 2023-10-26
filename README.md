@@ -1,21 +1,24 @@
 # tower-sections-catalogue
 Tower Sections Catalogue App
 
-http://localhost:5208/swagger/index.html
+ASP.NET Core Web API .NET 7 runs at: http://localhost:5208
+ASP.NET Core Web API .NET 7 documentation: http://localhost:5208/swagger/index.html
 
 ```
 dotnet build && dotnet watch
 ```
 
+Create Migrations (created using code first approach)
 ```
 dotnet ef migrations add InitialCreate
+```
+
+Run Migrations
+```
 dotnet ef database update
 ```
 
-```
-dotnet ef dbcontext scaffold "Data Source=./Database/sqlite.db" Microsoft.EntityFrameworkCore.Sqlite -o Models --force
-```
-
+Database Tables (created by the migrations)
 ```
 -- Sections definition
 CREATE TABLE "Sections" (
@@ -37,14 +40,18 @@ CREATE TABLE "Shells" (
 
 -- SectionShells definition
 CREATE TABLE "SectionShells" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_SectionShells" PRIMARY KEY AUTOINCREMENT,
     "SectionId" INTEGER NOT NULL,
     "ShellId" INTEGER NOT NULL,
     "ShellPosition" INTEGER NOT NULL,
+    CONSTRAINT "PK_SectionShells" PRIMARY KEY ("SectionId", "ShellId"),
     CONSTRAINT "FK_SectionShells_Sections_SectionId" FOREIGN KEY ("SectionId") REFERENCES "Sections" ("Id") ON DELETE CASCADE,
     CONSTRAINT "FK_SectionShells_Shells_ShellId" FOREIGN KEY ("ShellId") REFERENCES "Shells" ("Id") ON DELETE CASCADE
 );
 
-CREATE INDEX "IX_SectionShells_SectionId" ON "SectionShells" ("SectionId");
 CREATE INDEX "IX_SectionShells_ShellId" ON "SectionShells" ("ShellId");
+```
+
+Create Models (database first approach just used for testing purposes)
+```
+dotnet ef dbcontext scaffold "Data Source=./Database/sqlite.db" Microsoft.EntityFrameworkCore.Sqlite -o Models --force
 ```
