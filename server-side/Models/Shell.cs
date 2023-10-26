@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace server_side.Models;
 
-namespace server_side.Models;
-
-public partial class Shell
+public class Shell
 {
     public long Id { get; set; }
 
-    public double? Height { get; set; }
+    public required double Height { get; set; }
 
-    public double? BottomDiameter { get; set; }
+    public required double BottomDiameter { get; set; }
 
-    public double? TopDiameter { get; set; }
+    public required double TopDiameter { get; set; }
 
-    public double? Thickness { get; set; }
+    public required double Thickness { get; set; }
 
-    public double? SteelDensity { get; set; }
+    public required double SteelDensity { get; set; }
 
-    public virtual ICollection<SectionShell> SectionShells { get; set; } = new List<SectionShell>();
+    public ICollection<SectionShell>? SectionShells { get; set; }
 }

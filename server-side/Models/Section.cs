@@ -1,14 +1,14 @@
 ﻿namespace server_side.Models;
 
-public partial class Section
+public class Section
 {
     public long Id { get; set; }
 
-    public string? PartNumber { get; set; }
+    public required string PartNumber { get; set; }
 
-    public double? BottomDiameter { get; set; }
+    public required double BottomDiameter { get; set; }
 
-    public double? TopDiameter { get; set; }
+    public required double TopDiameter { get; set; }
 
-    public virtual ICollection<SectionShell> SectionShells { get; set; } = new List<SectionShell>();
+    public ICollection<SectionShell>? SectionShells { get; set; }
 }

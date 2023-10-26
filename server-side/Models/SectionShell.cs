@@ -1,16 +1,16 @@
 ﻿namespace server_side.Models;
 
-public partial class SectionShell
+public class SectionShell
 {
     public long Id { get; set; }
 
-    public long? SectionId { get; set; }
+    public required long SectionId { get; set; }
 
-    public long? ShellId { get; set; }
+    public required long ShellId { get; set; }
 
-    public long? ShellPosition { get; set; }
+    public required long ShellPosition { get; set; }
 
-    public virtual Section? Section { get; set; }
+    public required Section Section { get; set; }
 
-    public virtual Shell? Shell { get; set; }
+    public required Shell Shell { get; set; }
 }

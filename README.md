@@ -17,29 +17,34 @@ dotnet ef dbcontext scaffold "Data Source=./Database/sqlite.db" Microsoft.Entity
 ```
 
 ```
-CREATE TABLE sections (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	part_number TEXT,
-	bottom_diameter REAL,
-	top_diameter REAL
+-- Sections definition
+CREATE TABLE "Sections" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Sections" PRIMARY KEY AUTOINCREMENT,
+    "PartNumber" TEXT NOT NULL,
+    "BottomDiameter" REAL NOT NULL,
+    "TopDiameter" REAL NOT NULL
 );
 
-CREATE TABLE shells (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	height REAL,
-	bottom_diameter REAL,
-	top_diameter REAL,
-	thickness REAL,
-	steel_density REAL
+-- Shells definition
+CREATE TABLE "Shells" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Shells" PRIMARY KEY AUTOINCREMENT,
+    "Height" REAL NOT NULL,
+    "BottomDiameter" REAL NOT NULL,
+    "TopDiameter" REAL NOT NULL,
+    "Thickness" REAL NOT NULL,
+    "SteelDensity" REAL NOT NULL
 );
 
--- ASSOCIATIVE TABLE
-CREATE TABLE section_shell (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	section_id INTEGER,
-	shell_id INTEGER,
-	shell_position INTEGER,
-	CONSTRAINT section_FK FOREIGN KEY (section_id) REFERENCES sections(id) ON DELETE CASCADE,
-	CONSTRAINT shell_FK FOREIGN KEY (shell_id) REFERENCES shells(id) ON DELETE CASCADE
+-- SectionShells definition
+CREATE TABLE "SectionShells" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_SectionShells" PRIMARY KEY AUTOINCREMENT,
+    "SectionId" INTEGER NOT NULL,
+    "ShellId" INTEGER NOT NULL,
+    "ShellPosition" INTEGER NOT NULL,
+    CONSTRAINT "FK_SectionShells_Sections_SectionId" FOREIGN KEY ("SectionId") REFERENCES "Sections" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_SectionShells_Shells_ShellId" FOREIGN KEY ("ShellId") REFERENCES "Shells" ("Id") ON DELETE CASCADE
 );
+
+CREATE INDEX "IX_SectionShells_SectionId" ON "SectionShells" ("SectionId");
+CREATE INDEX "IX_SectionShells_ShellId" ON "SectionShells" ("ShellId");
 ```
