@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using server_side.Data;
+using server_side.Database;
 
 #nullable disable
 
 namespace server_side.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    [Migration("20231026094648_InitialCreate")]
+    [Migration("20231026110911_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

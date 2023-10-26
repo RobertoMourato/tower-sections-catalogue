@@ -1,7 +1,7 @@
-using server_side.Data;
 using server_side.Models;
+using server_side.Interfaces;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace server_side.Controllers
 {
@@ -9,26 +9,26 @@ namespace server_side.Controllers
     [ApiController]
     public class SectionController : ControllerBase
     {
-        private readonly SqliteContext sqliteContext;
+        private readonly ISectionRepository sectionRepository;
 
-        public SectionController(SqliteContext sqliteContext)
+        public SectionController(ISectionRepository sectionRepository)
         {
-            this.sqliteContext = sqliteContext;
+            this.sectionRepository = sectionRepository;
 
         }
 
-        //create
-        [HttpPost]
-        public async Task<ActionResult<List<Section>>> AddSection(Section newSection)
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ICollection<Section>))]
+        public IActionResult GetSections()
         {
-            if (newSection != null)
+            var sections = sectionRepository.GetSections();
+
+            if (!ModelState.IsValid)
             {
-                sqliteContext.Sections.Add(newSection);
-                await sqliteContext.SaveChangesAsync();
-                return Ok(await sqliteContext.Sections.ToListAsync());
+                return BadRequest(ModelState);
             }
 
-            return BadRequest("Object instance not set");
+            return Ok(sections);
         }
     }
 }

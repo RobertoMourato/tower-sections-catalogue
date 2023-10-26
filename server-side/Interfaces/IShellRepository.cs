@@ -1,12 +1,14 @@
-namespace server_side.Models;
+using server_side.Models;
+
+namespace server_side.Interfaces;
 
 public interface IShellRepository
 {
-    IEnumerable<Shell> GetShells();
+    ICollection<Shell> GetShells();
 
     Shell GetShell(long id);
-    
+
     bool CreateShell(Shell shells);
-    
+
     bool DeleteShell(Shell shell);
 }

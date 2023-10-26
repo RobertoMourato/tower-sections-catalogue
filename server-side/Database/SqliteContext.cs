@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using server_side.Models;
 
-namespace server_side.Data;
+namespace server_side.Database;
 
 public class SqliteContext : DbContext
 {
