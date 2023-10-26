@@ -2,6 +2,8 @@ using server_side.Models;
 using server_side.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using server_side.Dtos;
 
 namespace server_side.Controllers
 {
@@ -10,18 +12,19 @@ namespace server_side.Controllers
     public class SectionController : ControllerBase
     {
         private readonly ISectionRepository sectionRepository;
+        private readonly IMapper mapper;
 
-        public SectionController(ISectionRepository sectionRepository)
+        public SectionController(ISectionRepository sectionRepository, IMapper mapper)
         {
             this.sectionRepository = sectionRepository;
-
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ICollection<Section>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<SectionDto>))]
         public IActionResult GetSections()
         {
-            var sections = sectionRepository.GetSections();
+            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections());
 
             if (!ModelState.IsValid)
             {
@@ -31,12 +34,12 @@ namespace server_side.Controllers
             return Ok(sections);
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Section))]
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(200, Type = typeof(SectionDto))]
         [ProducesResponseType(400)]
-        public IActionResult GetSection(long id)
+        public IActionResult GetSectionById(long id)
         {
-            var section = sectionRepository.GetSectionById(id);
+            var section = mapper.Map<SectionDto>(sectionRepository.GetSectionById(id));
 
             if (!ModelState.IsValid)
             {
@@ -52,11 +55,11 @@ namespace server_side.Controllers
         }
 
         [HttpGet("{partNumber}")]
-        [ProducesResponseType(200, Type = typeof(Section))]
+        [ProducesResponseType(200, Type = typeof(SectionDto))]
         [ProducesResponseType(400)]
         public IActionResult GetSection(string partNumber)
         {
-            var section = sectionRepository.GetSectionByPartNumber(partNumber);
+            var section = mapper.Map<SectionDto>(sectionRepository.GetSectionByPartNumber(partNumber));
 
             if (!ModelState.IsValid)
             {
@@ -72,10 +75,10 @@ namespace server_side.Controllers
         }
 
         [HttpGet("{bottomDiameter:decimal?}/{topDiameter:decimal?}")]
-        [ProducesResponseType(200, Type = typeof(ICollection<Section>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<SectionDto>))]
         public IActionResult GetSectionsByDiameter(double? bottomDiameter = null, double? topDiameter = null)
         {
-            var sections = sectionRepository.GetSectionsByDiameter(bottomDiameter, topDiameter);
+            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSectionsByDiameter(bottomDiameter, topDiameter));
 
             if (!ModelState.IsValid)
             {
