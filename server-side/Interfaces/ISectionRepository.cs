@@ -6,11 +6,11 @@ public interface ISectionRepository
 {
     ICollection<Section> GetSections();
 
-    Section? GetSectionById(long id);
+    ICollection<Section> GetSections(double? bottomDiameter, double? topDiameter);
 
-    Section? GetSectionByPartNumber(string uid);
+    Section? GetSection(long id);
 
-    ICollection<Section> GetSectionsByDiameter(double? bottomDiameter, double? topDiameter);
+    Section? GetSection(string uid);
 
     Section CreateSection(Section section);
 

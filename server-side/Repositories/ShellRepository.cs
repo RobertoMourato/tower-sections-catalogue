@@ -18,17 +18,17 @@ public class ShellRepository : IShellRepository
         return sqliteContext.Shells.OrderBy(sh => sh.Id).ToList();
     }
 
+    public Shell GetShell(long id)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool CreateShell(Shell shells)
     {
         throw new NotImplementedException();
     }
 
     public bool DeleteShell(Shell shell)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Shell GetShell(long id)
     {
         throw new NotImplementedException();
     }

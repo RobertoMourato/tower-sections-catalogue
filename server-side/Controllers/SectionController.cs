@@ -39,7 +39,7 @@ namespace server_side.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetSectionById(long id)
         {
-            var section = mapper.Map<SectionDto>(sectionRepository.GetSectionById(id));
+            var section = mapper.Map<SectionDto>(sectionRepository.GetSection(id));
 
             if (!ModelState.IsValid)
             {
@@ -57,9 +57,9 @@ namespace server_side.Controllers
         [HttpGet("{partNumber}")]
         [ProducesResponseType(200, Type = typeof(SectionDto))]
         [ProducesResponseType(400)]
-        public IActionResult GetSection(string partNumber)
+        public IActionResult GetSectionByPartNumber(string partNumber)
         {
-            var section = mapper.Map<SectionDto>(sectionRepository.GetSectionByPartNumber(partNumber));
+            var section = mapper.Map<SectionDto>(sectionRepository.GetSection(partNumber));
 
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace server_side.Controllers
         [ProducesResponseType(200, Type = typeof(ICollection<SectionDto>))]
         public IActionResult GetSectionsByDiameter(double? bottomDiameter = null, double? topDiameter = null)
         {
-            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSectionsByDiameter(bottomDiameter, topDiameter));
+            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections(bottomDiameter, topDiameter));
 
             if (!ModelState.IsValid)
             {

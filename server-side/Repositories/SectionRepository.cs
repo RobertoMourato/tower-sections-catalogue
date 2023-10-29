@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using server_side.Database;
 using server_side.Interfaces;
 using server_side.Models;
@@ -19,17 +18,7 @@ public class SectionRepository : ISectionRepository
         return sqliteContext.Sections.OrderBy(se => se.Id).ToList();
     }
 
-    public Section? GetSectionById(long id)
-    {
-        return sqliteContext.Sections.Where(se => se.Id == id).FirstOrDefault();
-    }
-
-    public Section? GetSectionByPartNumber(string uid)
-    {
-        return sqliteContext.Sections.Where(se => se.PartNumber == uid).FirstOrDefault();
-    }
-
-    public ICollection<Section> GetSectionsByDiameter(double? bottomDiameter, double? topDiameter)
+    public ICollection<Section> GetSections(double? bottomDiameter, double? topDiameter)
     {
         if (bottomDiameter != null && topDiameter != null)
         {
@@ -44,7 +33,17 @@ public class SectionRepository : ISectionRepository
             return sqliteContext.Sections.Where(se => se.TopDiameter == topDiameter).OrderBy(se => se.TopDiameter).ToList();
         }
 
-        return new List<Section>();
+        return sqliteContext.Sections.OrderBy(se => se.Id).ToList();
+    }
+
+    public Section? GetSection(long id)
+    {
+        return sqliteContext.Sections.Where(se => se.Id == id).FirstOrDefault();
+    }
+
+    public Section? GetSection(string uid)
+    {
+        return sqliteContext.Sections.Where(se => se.PartNumber == uid).FirstOrDefault();
     }
 
     public Section CreateSection(Section section)
