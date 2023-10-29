@@ -54,6 +54,11 @@ namespace server_side.Controllers
         {
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(id));
 
+            if (section == null)
+            {
+                return NotFound();
+            }
+
             var shells = mapper.Map<List<ShellDto>>(sectionRepository.GetShells(id));
 
             var sectionInformation = new SectionInformationDto(section, shells);
@@ -63,32 +68,31 @@ namespace server_side.Controllers
                 return BadRequest(ModelState);
             }
 
+            return Ok(sectionInformation);
+        }
+
+        [HttpGet("{partNumber}")]
+        [ProducesResponseType(200, Type = typeof(SectionInformationDto))]
+        [ProducesResponseType(400)]
+        public IActionResult GetSection(string partNumber)
+        {
+            var section = mapper.Map<SectionDto>(sectionRepository.GetSection(partNumber));
+
             if (section == null)
             {
                 return NotFound();
             }
 
-            return Ok(sectionInformation);
-        }
+            var shells = mapper.Map<List<ShellDto>>(sectionRepository.GetShells(section.Id));
 
-        [HttpGet("{partNumber}")]
-        [ProducesResponseType(200, Type = typeof(SectionDto))]
-        [ProducesResponseType(400)]
-        public IActionResult GetSection(string partNumber)
-        {
-            var section = mapper.Map<SectionDto>(sectionRepository.GetSection(partNumber));
+            var sectionInformation = new SectionInformationDto(section, shells);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (section == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(section);
+            return Ok(sectionInformation);
         }
     }
 }
