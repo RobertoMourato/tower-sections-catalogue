@@ -1,9 +1,8 @@
-using server_side.Models;
 using server_side.Interfaces;
+using server_side.Dtos;
 
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using server_side.Dtos;
 
 namespace server_side.Controllers
 {
@@ -34,10 +33,24 @@ namespace server_side.Controllers
             return Ok(sections);
         }
 
+        [HttpGet("{bottomDiameter:decimal?}/{topDiameter:decimal?}")]
+        [ProducesResponseType(200, Type = typeof(ICollection<SectionDto>))]
+        public IActionResult GetSections(double? bottomDiameter = null, double? topDiameter = null)
+        {
+            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections(bottomDiameter, topDiameter));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(sections);
+        }
+
         [HttpGet("{id:int}")]
         [ProducesResponseType(200, Type = typeof(SectionDto))]
         [ProducesResponseType(400)]
-        public IActionResult GetSectionById(long id)
+        public IActionResult GetSection(long id)
         {
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(id));
 
@@ -57,7 +70,7 @@ namespace server_side.Controllers
         [HttpGet("{partNumber}")]
         [ProducesResponseType(200, Type = typeof(SectionDto))]
         [ProducesResponseType(400)]
-        public IActionResult GetSectionByPartNumber(string partNumber)
+        public IActionResult GetSection(string partNumber)
         {
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(partNumber));
 
@@ -72,20 +85,6 @@ namespace server_side.Controllers
             }
 
             return Ok(section);
-        }
-
-        [HttpGet("{bottomDiameter:decimal?}/{topDiameter:decimal?}")]
-        [ProducesResponseType(200, Type = typeof(ICollection<SectionDto>))]
-        public IActionResult GetSectionsByDiameter(double? bottomDiameter = null, double? topDiameter = null)
-        {
-            var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections(bottomDiameter, topDiameter));
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok(sections);
         }
     }
 }

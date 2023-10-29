@@ -18,9 +18,9 @@ public class ShellRepository : IShellRepository
         return sqliteContext.Shells.OrderBy(sh => sh.Id).ToList();
     }
 
-    public Shell GetShell(long id)
+    public Shell? GetShell(long id)
     {
-        throw new NotImplementedException();
+        return sqliteContext.Shells.Where(sh => sh.Id == id).FirstOrDefault();
     }
 
     public bool CreateShell(Shell shells)

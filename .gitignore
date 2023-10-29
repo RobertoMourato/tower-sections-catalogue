@@ -1,6 +1,7 @@
 # server-side
 /server-side/bin/*
 /server-side/obj/*
-# /server-side/Database/sqlite.*
+/server-side/Database/sqlite.db-shm
+/server-side/Database/sqlite.db-wal
 
 # client-side

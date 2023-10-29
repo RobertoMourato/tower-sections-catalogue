@@ -10,6 +10,7 @@ namespace server_side.Helpers
         public MappingProfiles()
         {
             CreateMap<Section, SectionDto>();
+            CreateMap<Shell, ShellDto>();
         }
     }
 }

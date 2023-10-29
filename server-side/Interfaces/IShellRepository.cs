@@ -6,7 +6,7 @@ public interface IShellRepository
 {
     ICollection<Shell> GetShells();
 
-    Shell GetShell(long id);
+    Shell? GetShell(long id);
 
     bool CreateShell(Shell shells);
 
