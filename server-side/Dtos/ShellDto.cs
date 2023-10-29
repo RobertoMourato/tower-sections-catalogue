@@ -2,6 +2,8 @@ namespace server_side.Dtos
 {
     public class ShellDto
     {
+        public long Id { get; set; }
+
         public required double Height { get; set; }
 
         public required double BottomDiameter { get; set; }
