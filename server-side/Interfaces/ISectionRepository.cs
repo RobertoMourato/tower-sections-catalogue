@@ -12,6 +12,8 @@ public interface ISectionRepository
 
     Section? GetSection(string uid);
 
+    ICollection<Shell> GetShells(long id);
+
     Section CreateSection(Section section);
 
     // Task<Section> UpdateSection(long id, ICollection<Shell> shells);

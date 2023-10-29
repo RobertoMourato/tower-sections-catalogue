@@ -48,11 +48,15 @@ namespace server_side.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [ProducesResponseType(200, Type = typeof(SectionDto))]
+        [ProducesResponseType(200, Type = typeof(SectionInformationDto))]
         [ProducesResponseType(400)]
         public IActionResult GetSection(long id)
         {
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(id));
+
+            var shells = mapper.Map<List<ShellDto>>(sectionRepository.GetShells(id));
+
+            var sectionInformation = new SectionInformationDto(section, shells);
 
             if (!ModelState.IsValid)
             {
@@ -64,7 +68,7 @@ namespace server_side.Controllers
                 return NotFound();
             }
 
-            return Ok(section);
+            return Ok(sectionInformation);
         }
 
         [HttpGet("{partNumber}")]

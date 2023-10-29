@@ -46,6 +46,11 @@ public class SectionRepository : ISectionRepository
         return sqliteContext.Sections.Where(se => se.PartNumber == uid).FirstOrDefault();
     }
 
+    public ICollection<Shell> GetShells(long id)
+    {
+        return sqliteContext.SectionShells.Where(ss => ss.Section.Id == id).OrderBy(ss => ss.ShellPosition).Select(ss => ss.Shell).ToList();
+    }
+
     public Section CreateSection(Section section)
     {
         throw new NotImplementedException();
