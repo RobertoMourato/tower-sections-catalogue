@@ -51,13 +51,19 @@ public class SectionRepository : ISectionRepository
         return sqliteContext.SectionShells.Where(ss => ss.Section.Id == id).OrderBy(ss => ss.ShellPosition).Select(ss => ss.Shell).ToList();
     }
 
-    public Section CreateSection(Section section)
+    public bool CreateSection(Section section)
     {
-        throw new NotImplementedException();
+        sqliteContext.Add(section);
+        return Save();
     }
 
     public void DeleteSection(long id)
     {
         throw new NotImplementedException();
+    }
+
+    public bool Save()
+    {
+        return sqliteContext.SaveChanges() > 0;
     }
 }

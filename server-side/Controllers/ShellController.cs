@@ -26,9 +26,7 @@ namespace server_side.Controllers
             var shells = mapper.Map<List<ShellDto>>(shellRepository.GetShells());
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             return Ok(shells);
         }
@@ -41,14 +39,10 @@ namespace server_side.Controllers
             var shell = mapper.Map<ShellDto>(shellRepository.GetShell(id));
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (shell == null)
-            {
                 return NotFound();
-            }
 
             return Ok(shell);
         }

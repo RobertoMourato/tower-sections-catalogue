@@ -14,9 +14,11 @@ public interface ISectionRepository
 
     ICollection<Shell> GetShells(long id);
 
-    Section CreateSection(Section section);
+    bool CreateSection(Section section);
 
     // Task<Section> UpdateSection(long id, ICollection<Shell> shells);
 
     void DeleteSection(long id);
+
+    bool Save();
 }

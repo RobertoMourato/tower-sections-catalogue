@@ -1,5 +1,6 @@
 using server_side.Interfaces;
 using server_side.Dtos;
+using server_side.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
@@ -26,9 +27,8 @@ namespace server_side.Controllers
             var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections());
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
+
 
             return Ok(sections);
         }
@@ -40,9 +40,7 @@ namespace server_side.Controllers
             var sections = mapper.Map<List<SectionDto>>(sectionRepository.GetSections(bottomDiameter, topDiameter));
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             return Ok(sections);
         }
@@ -55,18 +53,14 @@ namespace server_side.Controllers
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(id));
 
             if (section == null)
-            {
                 return NotFound();
-            }
 
             var shells = mapper.Map<List<ShellDto>>(sectionRepository.GetShells(id));
 
             var sectionInformation = new SectionInformationDto(section, shells);
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             return Ok(sectionInformation);
         }
@@ -79,20 +73,46 @@ namespace server_side.Controllers
             var section = mapper.Map<SectionDto>(sectionRepository.GetSection(partNumber));
 
             if (section == null)
-            {
                 return NotFound();
-            }
 
             var shells = mapper.Map<List<ShellDto>>(sectionRepository.GetShells(section.Id));
 
             var sectionInformation = new SectionInformationDto(section, shells);
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             return Ok(sectionInformation);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateSection([FromBody] SectionDto newSection)
+        {
+            if (newSection == null)
+                return BadRequest(ModelState);
+
+            var searchSection = sectionRepository.GetSections().Where(se => se.PartNumber.Trim().ToUpper() == newSection.PartNumber.Trim().ToUpper()).FirstOrDefault();
+
+            if (searchSection != null)
+            {
+                ModelState.AddModelError("", "Section already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var section = mapper.Map<Section>(newSection);
+
+            if (!sectionRepository.CreateSection(section))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
     }
 }
