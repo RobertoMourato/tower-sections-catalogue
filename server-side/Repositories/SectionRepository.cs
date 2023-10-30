@@ -51,8 +51,26 @@ public class SectionRepository : ISectionRepository
         return sqliteContext.SectionShells.Where(ss => ss.Section.Id == id).OrderBy(ss => ss.ShellPosition).Select(ss => ss.Shell).ToList();
     }
 
-    public bool CreateSection(Section section)
+    public bool CreateSection(Section section, List<long> shellIds)
     {
+        for (var i = 1; i <= shellIds.Count; i++)
+        {
+            var shell = sqliteContext.Shells.Where(sh => sh.Id == shellIds[i - 1]).FirstOrDefault();
+
+            if (shell != null)
+            {
+                var sectionShell = new SectionShell()
+                {
+                    ShellId = shell.Id,
+                    ShellPosition = i,
+                    Section = section,
+                    Shell = shell,
+                };
+
+                sqliteContext.Add(sectionShell);
+            }
+        }
+
         sqliteContext.Add(section);
         return Save();
     }

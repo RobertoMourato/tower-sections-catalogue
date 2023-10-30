@@ -2,7 +2,7 @@
 
 public class SectionShell
 {
-    public required long SectionId { get; set; }
+    public long SectionId { get; set; }
 
     public required long ShellId { get; set; }
 
