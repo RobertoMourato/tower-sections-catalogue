@@ -18,7 +18,7 @@ public interface ISectionRepository
 
     // Task<Section> UpdateSection(long id, ICollection<Shell> shells);
 
-    void DeleteSection(long id);
+    bool DeleteSection(Section section);
 
     bool Save();
 }

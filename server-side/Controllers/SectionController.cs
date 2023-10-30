@@ -151,5 +151,27 @@ namespace server_side.Controllers
 
             return Ok("Successfully created");
         }
+
+        [HttpDelete]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteSection(int sectionId)
+        {
+            var sectionToDelete = sectionRepository.GetSection(sectionId);
+
+            if (sectionToDelete == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!sectionRepository.DeleteSection(sectionToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong upon deleting section");
+            }
+
+            return NoContent();
+        }
     }
 }

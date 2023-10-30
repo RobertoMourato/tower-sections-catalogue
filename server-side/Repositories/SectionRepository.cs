@@ -75,9 +75,10 @@ public class SectionRepository : ISectionRepository
         return Save();
     }
 
-    public void DeleteSection(long id)
+    public bool DeleteSection(Section section)
     {
-        throw new NotImplementedException();
+        sqliteContext.Remove(section);
+        return Save();
     }
 
     public bool Save()
