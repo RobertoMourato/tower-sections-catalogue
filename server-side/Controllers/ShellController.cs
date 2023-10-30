@@ -1,5 +1,6 @@
 using server_side.Interfaces;
 using server_side.Dtos;
+using server_side.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
@@ -45,6 +46,25 @@ namespace server_side.Controllers
                 return NotFound();
 
             return Ok(shell);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateShell([FromBody] ShellDto newShell)
+        {
+            if (newShell == null)
+                return BadRequest(ModelState);
+
+            var shell = mapper.Map<Shell>(newShell);
+
+            if (!shellRepository.CreateShell(shell))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
     }
 }

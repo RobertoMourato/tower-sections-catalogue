@@ -8,7 +8,9 @@ public interface IShellRepository
 
     Shell? GetShell(long id);
 
-    bool CreateShell(Shell shells);
+    bool CreateShell(Shell shell);
 
     bool DeleteShell(Shell shell);
+
+    bool Save();
 }

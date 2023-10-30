@@ -12,6 +12,7 @@ namespace server_side.Helpers
             CreateMap<Section, SectionDto>();
             CreateMap<SectionDto, Section>();
             CreateMap<Shell, ShellDto>();
+            CreateMap<ShellDto, Shell>();
         }
     }
 }

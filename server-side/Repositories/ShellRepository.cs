@@ -23,13 +23,19 @@ public class ShellRepository : IShellRepository
         return sqliteContext.Shells.Where(sh => sh.Id == id).FirstOrDefault();
     }
 
-    public bool CreateShell(Shell shells)
+    public bool CreateShell(Shell shell)
     {
-        throw new NotImplementedException();
+        sqliteContext.Add(shell);
+        return Save();
     }
 
     public bool DeleteShell(Shell shell)
     {
         throw new NotImplementedException();
+    }
+
+    public bool Save()
+    {
+        return sqliteContext.SaveChanges() > 0;
     }
 }
