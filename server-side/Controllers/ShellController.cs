@@ -66,5 +66,27 @@ namespace server_side.Controllers
 
             return Ok("Successfully created");
         }
+
+        [HttpDelete]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteShell(int shellId)
+        {
+            var shellToDelete = shellRepository.GetShell(shellId);
+
+            if (shellToDelete == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!shellRepository.DeleteShell(shellToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong upon deleting shell");
+            }
+
+            return NoContent();
+        }
     }
 }

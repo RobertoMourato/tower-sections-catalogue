@@ -31,7 +31,8 @@ public class ShellRepository : IShellRepository
 
     public bool DeleteShell(Shell shell)
     {
-        throw new NotImplementedException();
+        sqliteContext.Remove(shell);
+        return Save();
     }
 
     public bool Save()
