@@ -1,6 +1,16 @@
 # tower-sections-catalogue
 Tower Sections Catalogue App
 
+### client-side
+
+Angular App runs at: http://localhost:4200/
+
+```
+npm install
+ng serve
+```
+
+### server-side
 ASP.NET Core Web API .NET 7 runs at: http://localhost:5208
 
 ASP.NET Core Web API .NET 7 documentation: http://localhost:5208/swagger/index.html
