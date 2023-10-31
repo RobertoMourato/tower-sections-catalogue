@@ -10,7 +10,7 @@ using server_side.Database;
 namespace server_side.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    [Migration("20231026110911_InitialCreate")]
+    [Migration("20231031093112_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
