@@ -1,0 +1,21 @@
+<div class="section-details-container">
+    <div *ngIf="sectionInformation">
+        <div class="section-details-container">
+            <h2>Part Number: {{ sectionInformation.section.partNumber }}</h2>
+            <p>Bottom Diameter: {{ sectionInformation.section.bottomDiameter }} meters</p>
+            <p>Top Diameter: {{ sectionInformation.section.topDiameter }} meters</p>
+        </div>
+    </div>
+    <div *ngIf="sectionInformation">
+        <div *ngFor="let shell of sectionInformation.shells; let i = index">
+            <div class="section-details-container">
+                <h2>Position: {{ i + 1 }}</h2>
+                <p>Height: {{ shell.height }} meters</p>
+                <p>Bottom Diameter: {{ shell.bottomDiameter }} meters</p>
+                <p>Top Diameter: {{ shell.topDiameter }} meters</p>
+                <p>Thickness: {{ shell.thickness }}</p>
+                <p>Steel Density: {{ shell.steelDensity }}</p>
+            </div>
+        </div>
+    </div>
+</div>
