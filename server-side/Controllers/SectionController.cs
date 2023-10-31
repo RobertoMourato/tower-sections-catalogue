@@ -152,6 +152,62 @@ namespace server_side.Controllers
             return Ok("Successfully created");
         }
 
+        [HttpPut("{sectionId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateSection(int sectionId, [FromBody] List<long> shellIds)
+        {
+            if (shellIds.Count == 0)
+                return BadRequest(ModelState);
+
+            var sectionToUpdate = sectionRepository.GetSection(sectionId);
+
+            if (sectionToUpdate == null)
+                return NotFound();
+
+            double nextBottomDiameter = 0;
+
+            for (var i = 0; i < shellIds.Count; i++)
+            {
+                var shell = shellRepository.GetShell(shellIds[i]);
+
+                if (shell == null)
+                {
+                    ModelState.AddModelError("", "Unexistent shell");
+                    return StatusCode(500, ModelState);
+                }
+
+                if (i != 0)
+                {
+                    if (shell.BottomDiameter != nextBottomDiameter)
+                    {
+                        ModelState.AddModelError("", "Shell diameters must be continuous between adjacent shells");
+                        return StatusCode(500, ModelState);
+                    }
+                }
+
+                if (i == 0)
+                    sectionToUpdate.BottomDiameter = shell.BottomDiameter;
+
+                if (i == shellIds.Count - 1)
+                    sectionToUpdate.TopDiameter = shell.TopDiameter;
+
+                nextBottomDiameter = shell.TopDiameter;
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!sectionRepository.UpdateSection(sectionToUpdate, shellIds))
+            {
+                ModelState.AddModelError("", "Something went wrong updating section");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]

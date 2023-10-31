@@ -75,6 +75,37 @@ public class SectionRepository : ISectionRepository
         return Save();
     }
 
+    public bool UpdateSection(Section section, List<long> shellIds)
+    {
+        var sectionShellsToDelete = sqliteContext.SectionShells.Where(ss => ss.Section.Id == section.Id).ToList();
+
+        foreach (var sectionShell in sectionShellsToDelete)
+        {
+            sqliteContext.Remove(sectionShell);
+        }
+
+        for (var i = 1; i <= shellIds.Count; i++)
+        {
+            var shell = sqliteContext.Shells.Where(sh => sh.Id == shellIds[i - 1]).FirstOrDefault();
+
+            if (shell != null)
+            {
+                var sectionShell = new SectionShell()
+                {
+                    ShellId = shell.Id,
+                    ShellPosition = i,
+                    Section = section,
+                    Shell = shell,
+                };
+
+                sqliteContext.Add(sectionShell);
+            }
+        }
+
+        sqliteContext.Update(section);
+        return Save();
+    }
+
     public bool DeleteSection(Section section)
     {
         sqliteContext.Remove(section);
